@@ -56,7 +56,7 @@ public class Main {
     }
 
     private static void printResult(List<String> stringList) {
-        if (stringList.size() > 0) {
+        if (!stringList.isEmpty()) {
             System.out.println("\nFound people:");
             for (String entry : stringList) {
                 System.out.println(entry);
