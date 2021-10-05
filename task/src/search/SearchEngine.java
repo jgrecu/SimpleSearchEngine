@@ -6,9 +6,6 @@ import java.util.List;
 public class SearchEngine {
     private List<String> people;
 
-    public SearchEngine() {
-    }
-
     public SearchEngine(List<String> people) {
         this.people = people;
     }
