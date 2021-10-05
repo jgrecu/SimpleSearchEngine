@@ -245,6 +245,24 @@ files:
     }
 
   learner_created: false
+- name: src/search/SearchEngine.java
+  visible: true
+  text: |
+    package search;
+
+    import java.util.List;
+
+    public class SearchEngine {
+        private static List<String> people;
+
+    }
+  learner_created: true
+- name: src/search/SearchUserInterface.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/66/stages/356/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 05 Oct 2021 14:15:36 UTC
 record: -1
