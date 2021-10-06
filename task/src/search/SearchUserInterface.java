@@ -1,5 +1,7 @@
 package search;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,8 +10,8 @@ public class SearchUserInterface {
     private static SearchEngine searchEngine;
     private static final Scanner scanner = new Scanner(System.in);
 
-    static void start() {
-        searchEngine = new SearchEngine(initializeList(scanner));
+    static void start(String fileName) {
+        searchEngine = new SearchEngine(readFile(fileName));
         run();
     }
 
@@ -48,14 +50,17 @@ public class SearchUserInterface {
                 "0. Exit");
     }
 
-    static List<String> initializeList(Scanner scanner) {
+    public static List<String> readFile(String filename) {
         List<String> people = new ArrayList<>();
-        System.out.println("Enter the number of people:");
-        int listSize = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter all people:");
-        for (int i = 0; i < listSize; i++) {
-            people.add(scanner.nextLine());
+        File file = new File(filename);
+        try (Scanner scanner = new Scanner(file)) {
+            while(scanner.hasNextLine()) {
+                people.add(scanner.nextLine());
+            }
+            return people;
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found");
+            return people;
         }
-        return people;
     }
 }
