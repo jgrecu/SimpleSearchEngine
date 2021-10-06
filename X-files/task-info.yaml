@@ -392,12 +392,9 @@ files:
             "Elyse Pauling";
     }
   learner_created: false
-- name: ./text.txt
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/66/stages/357/implement#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Wed, 06 Oct 2021 10:40:30 UTC
-record: -1
+record: 4
