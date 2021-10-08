@@ -38,9 +38,15 @@ public class SearchUserInterface {
     }
 
     private static void findPerson() {
+        String type = selectSearchType();
         System.out.println("\nEnter a name or email to search all suitable people.");
         String patern = scanner.nextLine();
-        searchEngine.searchList(patern);
+        searchEngine.searchList(type, patern);
+    }
+
+    private static String selectSearchType() {
+        System.out.println("\nSelect a matching strategy: ALL, ANY, NONE");
+        return scanner.nextLine().strip().toLowerCase();
     }
 
     private static void printMainMenu() {

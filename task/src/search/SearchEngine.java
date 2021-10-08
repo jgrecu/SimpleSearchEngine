@@ -1,9 +1,7 @@
 package search;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     private List<String> people;
@@ -26,17 +24,62 @@ public class SearchEngine {
         }
     }
 
-    public void searchList(String input) {
-        List<Integer> temp = invertedIndex.get(input.toLowerCase());
+    public void searchList(String type, String input) {
+        List<String> temp = List.of(input.toLowerCase().split("\\s+"));
+        SortedSet<Integer> common = new TreeSet<>();
 
-        if (temp != null) {
-            System.out.println(temp.size() + " persons found:");
-            for (int entry : temp) {
+        switch (type) {
+            case "all":
+                common = searchListAll(temp);
+                break;
+            case "any":
+                common = searchListAny(temp);
+                break;
+            case "none":
+                common = searchListNone(temp);
+                break;
+            default:
+                break;
+        }
+        if (!common.isEmpty()) {
+            System.out.println("\n" + common.size() + " persons found:");
+            for (int entry : common) {
                 System.out.println(people.get(entry));
             }
         } else {
             System.out.println("No matching people found.");
         }
+    }
+
+    public SortedSet<Integer> searchListAll(List<String> searchTerms) {
+        SortedSet<Integer> common = new TreeSet<>(invertedIndex.getOrDefault(searchTerms.get(0), new ArrayList<>()));
+        List<Integer> temp1;
+        for (String searchTerm : searchTerms) {
+            temp1 = invertedIndex.getOrDefault(searchTerm, new ArrayList<>());
+            common.retainAll(temp1);
+        }
+        return common;
+    }
+
+    public SortedSet<Integer> searchListAny(List<String> searchTerms) {
+        SortedSet<Integer> common = new TreeSet<>(invertedIndex.getOrDefault(searchTerms.get(0), new ArrayList<>()));
+        List<Integer> temp1;
+        for (String searchTerm : searchTerms) {
+            temp1 = invertedIndex.getOrDefault(searchTerm, new ArrayList<>());
+            common.addAll(temp1);
+        }
+        return common;
+    }
+
+    public SortedSet<Integer> searchListNone(List<String> searchTerms) {
+        SortedSet<Integer> common = invertedIndex.values()
+                .stream().flatMap(List::stream).collect(Collectors.toCollection(TreeSet::new));
+        List<Integer> temp1;
+        for (String searchTerm : searchTerms) {
+            temp1 = invertedIndex.getOrDefault(searchTerm, new ArrayList<>());
+            common.removeAll(temp1);
+        }
+        return common;
     }
 
     public void printList() {
